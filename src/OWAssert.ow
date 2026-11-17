@@ -1,0 +1,55 @@
+# OWUnit native assertion API. Errors are caught by OW's test runner.
+class OWAssert:
+  fn assertEquals(expected, actual):
+    call: assert(expected == actual, "Expected " + str(expected) + ", but got " + str(actual))
+
+  fn assertNotEquals(unexpected, actual):
+    call: assert(unexpected != actual, "Did not expect " + str(unexpected))
+
+  fn assertTrue(value):
+    call: assert(value == true, "Expected true, but got " + str(value))
+
+  fn assertFalse(value):
+    call: assert(value == false, "Expected false, but got " + str(value))
+
+  fn assertGreaterThan(actual, threshold):
+    call: assert(actual > threshold, "Expected " + str(actual) + " > " + str(threshold))
+
+  fn assertLessThan(actual, threshold):
+    call: assert(actual < threshold, "Expected " + str(actual) + " < " + str(threshold))
+
+  fn assertInRange(actual, minimum, maximum):
+    call: assert(actual >= minimum, "Value below minimum: " + str(actual))
+    call: assert(actual <= maximum, "Value above maximum: " + str(actual))
+
+  fn assertArrayLength(items, expected):
+    call: assert(len(items) == expected, "Expected length " + str(expected) + ", but got " + str(len(items)))
+
+  fn assertEmpty(items):
+    call: assert(len(items) == 0, "Expected an empty array")
+
+  fn assertNotEmpty(items):
+    call: assert(len(items) > 0, "Expected a nonempty array")
+
+  fn assertContains(items, expected):
+    set i int: 0
+    while: i < len(items)
+      if: items[i] == expected
+        return: 0
+      set i: i + 1
+    call: assert(false, "Array does not contain " + str(expected))
+
+  fn assertNotContains(items, unexpected):
+    set i int: 0
+    while: i < len(items)
+      call: assert(items[i] != unexpected, "Array unexpectedly contains " + str(unexpected))
+      set i: i + 1
+
+  fn assertNull(value):
+    call: assert(json(value) == "null", "Expected null, but got " + str(value))
+
+  fn assertNotNull(value):
+    call: assert(json(value) != "null", "Expected non-null value")
+
+  fn fail(message):
+    call: assert(false, message)

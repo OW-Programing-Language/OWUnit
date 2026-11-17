@@ -1,0 +1,46 @@
+import "../src/OWAssert.ow"
+
+class OWAssertTest:
+  field checker
+
+  @BeforeEach
+  fn setup():
+    set this.checker: new OWAssert()
+
+  @Test
+  fn equality():
+    call: this.checker.assertEquals(42, 40 + 2)
+    call: this.checker.assertNotEquals(42, 43)
+
+  @Test
+  fn booleanAssertions():
+    call: this.checker.assertTrue(3 > 2)
+    call: this.checker.assertFalse(2 > 3)
+
+  @Test
+  fn numericalAssertions():
+    call: this.checker.assertGreaterThan(9, 5)
+    call: this.checker.assertLessThan(2, 5)
+    call: this.checker.assertInRange(4, 1, 10)
+
+  @Test
+  fn collectionAssertions():
+    call: this.checker.assertArrayLength([1, 2, 3], 3)
+    call: this.checker.assertEmpty([])
+    call: this.checker.assertNotEmpty([1])
+    call: this.checker.assertContains([1, 2, 3], 2)
+    call: this.checker.assertNotContains([1, 2, 3], 4)
+
+  @Test
+  fn nullableAssertions():
+    call: this.checker.assertNull(json_parse("null"))
+    call: this.checker.assertNotNull("a value")
+
+  @Test
+  fn catchesExpectedFailures():
+    set caught: false
+    try:
+      call: this.checker.fail("intentional failure")
+    catch error:
+      set caught: error == "Assertion failed: intentional failure"
+    call: assert(caught, "Expected OWUnit failure to be catchable")

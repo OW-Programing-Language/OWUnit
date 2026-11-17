@@ -1,0 +1,8 @@
+# Self-contained example with no @Test runner required.
+import "../src/OWAssert.ow"
+
+main:
+  set checker: new OWAssert()
+  call: checker.assertEquals(4, 2 + 2)
+  call: checker.assertTrue(5 > 3)
+  print: "OWUnit assertions passed"
