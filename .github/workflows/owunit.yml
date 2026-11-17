@@ -1,0 +1,38 @@
+name: OWUnit native tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout OWUnit
+        uses: actions/checkout@v4
+
+      - name: Checkout OW compiler
+        uses: actions/checkout@v4
+        with:
+          repository: OW-Programing-Language/ow-lang
+          ref: main
+          path: .ow-compiler
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: maven
+          cache-dependency-path: .ow-compiler/pom.xml
+
+      - name: Build OW CLI
+        run: mvn -B -f .ow-compiler/pom.xml clean package
+
+      - name: Run OWUnit assertions
+        run: java -jar .ow-compiler/target/OwIDE.jar test tests/OWAssertTest.ow
+
+      - name: Run OWUnit standalone example
+        run: java -jar .ow-compiler/target/OwIDE.jar run examples/example.ow
