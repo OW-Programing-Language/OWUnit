@@ -4,7 +4,7 @@
 
 ## Requirements
 
-Use the OW interpreter version which supports `@Test`, `@BeforeEach`, `@AfterEach`, `throw:` and `ow test`. These changes are proposed in the companion `ow-lang` pull request. The native LLVM backend does not yet support the test runner.
+Use the current OW interpreter from [`ow-lang/main`](https://github.com/OW-Programing-Language/ow-lang), which now supports `@Test`, `@BeforeEach`, `@AfterEach`, `throw:` and `ow test` (merged in [ow-lang PR #45](https://github.com/OW-Programing-Language/ow-lang/pull/45)). Install or rebuild OW after this merge to use these features. The native LLVM backend does not yet support the test runner.
 
 ## Install
 
@@ -59,10 +59,16 @@ Run `ow test tests/CalculatorTest.ow` or `ow test tests/`. A test failure produc
 
 ## Local development
 
+Run the test suite with an updated OW CLI:
+
 ```sh
 ow test tests/OWAssertTest.ow
 ow run examples/example.ow
 ```
+
+## Continuous integration
+
+GitHub Actions runs the assertions and examples against OW's main-branch interpreter.
 
 ## License
 
